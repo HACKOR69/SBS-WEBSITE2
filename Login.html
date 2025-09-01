@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-300">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind Form with Validation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script>
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+      }
+
+      // Validation
+      function validateForm(e) {
+        e.preventDefault();
+
+        let name = document.getElementById("name");
+        let email = document.getElementById("email");
+        let password = document.getElementById("password");
+
+        let valid = true;
+
+        // Reset errors
+        document.querySelectorAll(".error-msg").forEach((el) => (el.innerText = ""));
+
+        // Name check
+        if (name.value.trim() === "") {
+          document.getElementById("nameError").innerText = "Username is required";
+          valid = false;
+        }
+
+        // Email check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email.value.trim() === "") {
+          document.getElementById("emailError").innerText = "Email is required";
+          valid = false;
+        } else if (!emailRegex.test(email.value)) {
+          document.getElementById("emailError").innerText = "Invalid email format";
+          valid = false;
+        }
+
+        // Password check
+        if (password.value.trim() === "") {
+          document.getElementById("passwordError").innerText = "Password is required";
+          valid = false;
+        } else if (password.value.length < 6) {
+          document.getElementById("passwordError").innerText =
+            "Password must be at least 6 characters";
+          valid = false;
+        }
+
+        // If valid → redirect
+        if (valid) {
+          window.location.href = "/src/main page.html";
+        }
+      }
+    </script>
+  </head>
+  <body
+    class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-black transition-colors duration-500"
+  >
+    <!-- Dark mode button -->
+    <button
+      onclick="toggleDarkMode()"
+      class="absolute top-4 right-4 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 rounded-full shadow-md hover:scale-105 transition"
+    >
+      <i class="fa-solid fa-moon dark:hidden"></i>
+      <i class="fa-solid fa-sun hidden dark:inline"></i>
+    </button>
+
+    <!-- Container -->
+    <div
+      class="relative flex flex-col md:flex-row w-[95%] max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden transition-colors duration-500"
+    >
+      <!-- Left: Image -->
+      <div class="md:w-1/2 w-full h-52 md:h-auto">
+        <img
+          src="/imgs/photo-1750967991618-7b64a3025381.avif"
+          alt="form image"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Right: Form -->
+      <form
+        onsubmit="validateForm(event)"
+        class="md:w-1/2 w-full p-8 md:p-10 flex flex-col justify-between bg-white/95 dark:bg-gray-900/95 transition-colors duration-500"
+      >
+        <!-- Title -->
+        <div>
+          <h2
+            class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center"
+          >
+            Welcome Back 👋
+          </h2>
+
+          <div class="space-y-4">
+            <!-- Username -->
+            <div>
+              <label
+                for="name"
+                class="block text-sm font-medium text-gray-600 dark:text-gray-300"
+                >Username</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your full name"
+                class="mt-1 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+              <p id="nameError" class="error-msg text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-600 dark:text-gray-300"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                class="mt-1 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+              <p id="emailError" class="error-msg text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Password -->
+            <div>
+              <label
+                for="password"
+                class="block text-sm font-medium text-gray-600 dark:text-gray-300"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="********"
+                class="mt-1 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+              <p id="passwordError" class="error-msg text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Remember & Forgot -->
+            <div class="flex justify-between items-center text-sm mt-2">
+              <label class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                <input type="checkbox" class="accent-purple-500" />
+                Remember me
+              </label>
+              <a href="#" class="text-purple-600 hover:underline">Forgot password?</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="grid grid-cols-1 gap- mt-6">
+          <button 
+            type="submit"
+            class="bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition"
+          >
+          Log In <i class="fa-solid fa-angle-right" ></i>
+        </button>
+        <!-- <button
+        type="button"
+        onclick="alert('Sign up page here!')"
+        class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+        >
+        Sign Up <i class="fa-solid fa-angle-right"></i>
+      </button>
+    </div> -->
+    
+    <!-- Footer -->
+    <div class="pt-6">
+          <div
+            class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-4"
+          >
+            <a href="#" class="hover:underline">Terms of service</a>
+            <a href="#" class="hover:underline">Privacy policy</a>
+          </div>
+      
+          <ul
+            class="flex justify-center gap-6 text-xl text-gray-600 dark:text-gray-300"
+          >
+            <li>
+              <a href="#" class="hover:text-blue-700"
+                ><i class="fa-brands fa-linkedin"></i
+              ></a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-red-600"
+                ><i class="fa-brands fa-google"></i
+              ></a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fa-brands fa-facebook"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
